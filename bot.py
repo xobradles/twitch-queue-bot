@@ -38,12 +38,17 @@ class Bot(commands.Bot):
         else:
             await ctx.send(f"{user}, you are not in the queue.")
 
-    @commands.command(name='queue')
-    async def show_queue(self, ctx):
-        if queue:
-            await ctx.send(f"Queue: {', '.join(queue)}")
-        else:
-            await ctx.send("The queue is currently empty.")
+@commands.command(name='queue')
+async def show_queue(self, ctx):
+    if queue:
+        shown = ', '.join(queue[:10])
+        msg = f"Queue (in order): {shown}"
+        if len(queue) > 10:
+            msg += f" ...and {len(queue) - 10} more"
+        await ctx.send(msg)
+    else:
+        await ctx.send("The queue is currently empty.")
+    
 
     @commands.command(name='position')
     async def position(self, ctx):
