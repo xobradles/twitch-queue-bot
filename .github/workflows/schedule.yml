@@ -1,0 +1,24 @@
+name: Scheduled Render Deploy
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Monday 7:00 PM AEST
+    - cron: '0 9 * * 3'  # Wednesday 7:00 PM AEST
+    - cron: '0 9 * * 5'  # Friday 7:00 PM AEST
+  workflow_dispatch:     # Optional manual trigger
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Fake commit to trigger Render redeploy
+        run: |
+          echo "Triggered at $(date)" >> trigger.txt
+          git config --global user.email "autodeploy@bot.com"
+          git config --global user.name "Auto Deploy Bot"
+          git add trigger.txt
+          git commit -m "Scheduled auto-redeploy"
+          git push
