@@ -1,1 +1,1 @@
-twitchio==2.7.1
+twitchio==2.7.0
